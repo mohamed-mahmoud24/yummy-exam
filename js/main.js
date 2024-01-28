@@ -289,18 +289,15 @@ $(document).ready(() => {
 
             let responseData = await response.json();
             let html = "";
+            responseData.meals.length = 20
             responseData.meals.forEach((ingredient) => {
+                const description = ingredient.strDescription ? ingredient.strDescription.substring(0, 150) + '...' : 'No description available';
                 html += `
                     <div class="col-md-3">
-                        <div class="text-center ingredient role-btn" data-ingredient="${
-                            ingredient.strIngredient
-                        }">
+                        <div class="text-center ingredient role-btn" data-ingredient="${ingredient.strIngredient}">
                             <i class="fa-solid fa-drumstick-bite fa-4x"></i>
                             <h3 class="py-3">${ingredient.strIngredient}</h3>
-                            <p>${ingredient.strDescription.substring(
-                                0,
-                                150
-                            )}...</p>
+                            <p>${description}</p>
                         </div>
                     </div>
                 `;
@@ -312,6 +309,8 @@ $(document).ready(() => {
                     ${error.message}
                 </h2>
             `);
+        } finally {
+            loader.fadeOut(300);
         }
     };
 
